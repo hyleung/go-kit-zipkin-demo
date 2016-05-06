@@ -1,4 +1,6 @@
 ### https://raw.github.com/github/gitignore/da00310ccba9de9a988cc973ef5238ad2c1460e9/go.gitignore
+#
+bin/*
 
 # Compiled Object files, Static and Dynamic libs (Shared Objects)
 *.o

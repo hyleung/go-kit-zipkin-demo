@@ -9,8 +9,8 @@ type EchoService interface {
 	Echo(string) string
 }
 
-type echoService struct{}
+type EchoServiceImpl struct{}
 
-func (echoService) Echo(s string) string {
+func (EchoServiceImpl) Echo(s string) string {
 	return strings.ToUpper(s)
 }

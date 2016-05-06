@@ -16,7 +16,7 @@ type echoResponse struct {
 	Echo string `json:"echo"`
 }
 
-func decodeEchoRequest(_ context.Context, r *http.Request) (interface{}, error) {
+func DecodeEchoRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	var request echoRequest
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		return nil, err
@@ -24,6 +24,6 @@ func decodeEchoRequest(_ context.Context, r *http.Request) (interface{}, error) 
 	return request, nil
 }
 
-func encodeEchoResponse(_ context.Context, w http.ResponseWriter, response interface{}) error {
+func EncodeEchoResponse(_ context.Context, w http.ResponseWriter, response interface{}) error {
 	return json.NewEncoder(w).Encode(response)
 }

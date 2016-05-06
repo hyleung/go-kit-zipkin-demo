@@ -6,7 +6,7 @@ import (
 	"golang.org/x/net/context"
 )
 
-func makeEchoEndpoint(svc EchoService) endpoint.Endpoint {
+func MakeEchoEndpoint(svc EchoService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(echoRequest)
 		result := svc.Echo(req.Msg)

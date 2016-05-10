@@ -17,6 +17,7 @@ import (
 
 var port = flag.Int("port", 8080, "Http port")
 var scribeHost = flag.String("scribeHost", "localhost:9410", "Scribe host <hostname:port>")
+var samplingRate = flag.Float64("samplingRate", 1.0, "Sampling rate")
 
 func main() {
 	flag.Parse()
@@ -24,12 +25,15 @@ func main() {
 	//zipkin tracing
 	serviceName := "echo-service"
 	methodName := "echo"
-
+	sampler := zipkin.SampleRate(*samplingRate, 0)
 	spanFunc := zipkin.MakeNewSpanFunc(fmt.Sprintf("127.0.0.1:%d", *port), serviceName, methodName)
 	timeout := time.Second
 	batchInterval := time.Millisecond
-	fmt.Println("Using Scribe collector at ", *scribeHost)
-	collector, err := zipkin.NewScribeCollector(*scribeHost, timeout, zipkin.ScribeBatchSize(0), zipkin.ScribeBatchInterval(batchInterval))
+	fmt.Println("Using Scribe collector at", *scribeHost, "sampling at", *samplingRate*100, "%")
+	collector, err := zipkin.NewScribeCollector(*scribeHost, timeout,
+		zipkin.ScribeBatchSize(0),
+		zipkin.ScribeBatchInterval(batchInterval),
+		zipkin.ScribeSampleRate(sampler))
 	if err != nil {
 		log.Fatal(err)
 	}

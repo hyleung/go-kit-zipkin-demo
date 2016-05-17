@@ -9,7 +9,7 @@ import (
 func MakeEchoEndpoint(svc EchoService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(echoRequest)
-		result := svc.Echo(req.Msg)
+		result := svc.Echo(ctx, req.Msg)
 		return echoResponse{result}, nil
 	}
 }

@@ -39,7 +39,7 @@ func main() {
 	}
 
 	ctx := context.Background()
-	svc := echoservice.EchoServiceImpl{}
+	svc := echoservice.EchoServiceImpl{collector}
 	var service endpoint.Endpoint
 	service = echoservice.MakeEchoEndpoint(svc)
 	//wrap the service in Zipkin tracing middleware

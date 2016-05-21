@@ -15,12 +15,18 @@ import (
 	"time"
 )
 
-var port = flag.Int("port", 8080, "Http port")
-var scribeHost = flag.String("scribeHost", "localhost:9410", "Scribe host <hostname:port>")
-var samplingRate = flag.Float64("samplingRate", 1.0, "Sampling rate")
-
 func main() {
-	flag.Parse()
+	fs := flag.NewFlagSet("", flag.ExitOnError)
+	var (
+		port         = fs.Int("port", 8080, "Http port")
+		scribeHost   = fs.String("scribeHost", "", "Scribe host <hostname:port>")
+		samplingRate = fs.Float64("samplingRate", 1.0, "Sampling rate")
+	)
+	flag.Usage = fs.Usage
+	if err := fs.Parse(os.Args[1:]); err != nil {
+		fmt.Fprintf(os.Stderr, "%v", err)
+		os.Exit(1)
+	}
 	fmt.Println("Starting server on port:", *port)
 	//zipkin tracing
 	serviceName := "echo-service"

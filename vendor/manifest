@@ -2,6 +2,13 @@
 	"version": 0,
 	"dependencies": [
 		{
+			"importpath": "git.apache.org/thrift.git/lib/go/thrift",
+			"repository": "https://git.apache.org/thrift.git",
+			"revision": "8e2320339fe1c6cc2b5ea75c6a5940bda1e92fc9",
+			"branch": "master",
+			"path": "/lib/go/thrift"
+		},
+		{
 			"importpath": "github.com/afex/hystrix-go/hystrix",
 			"repository": "https://github.com/afex/hystrix-go",
 			"revision": "9351b724be3950ef0ca82c53f817dcd33947e95e",
@@ -69,6 +76,13 @@
 			"branch": "master"
 		},
 		{
+			"importpath": "github.com/go-kit/kit/tracing/opentracing",
+			"repository": "https://github.com/go-kit/kit",
+			"revision": "7de0f49c7f983848573e1955b8472197569a8a88",
+			"branch": "master",
+			"path": "/tracing/opentracing"
+		},
+		{
 			"importpath": "github.com/go-kit/kit/tracing/zipkin/_thrift/gen-go/scribe",
 			"repository": "https://github.com/go-kit/kit",
 			"revision": "29235a436a43b71c8b57671f9d6b630f0a6b4533",
@@ -93,6 +107,13 @@
 			"repository": "https://github.com/go-stack/stack",
 			"revision": "ac4c579c437a23e1a15814c867ccb82122fb383b",
 			"branch": "master"
+		},
+		{
+			"importpath": "github.com/gogo/protobuf/proto",
+			"repository": "https://github.com/gogo/protobuf",
+			"revision": "c18eea6ad611eecf94a9ba38471f59706199409e",
+			"branch": "master",
+			"path": "/proto"
 		},
 		{
 			"importpath": "github.com/golang/protobuf/proto",
@@ -157,6 +178,32 @@
 			"revision": "c12348ce28de40eed0136aa2b644d0ee0650e56c",
 			"branch": "master",
 			"path": "/pbutil"
+		},
+		{
+			"importpath": "github.com/opentracing/opentracing-go",
+			"repository": "https://github.com/opentracing/opentracing-go",
+			"revision": "02e66dfd350ad9bac2960a0bf5ccea6472afaaad",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/openzipkin/zipkin-go-opentracing",
+			"repository": "https://github.com/openzipkin/zipkin-go-opentracing",
+			"revision": "b4c0d025d27a5ed609fb9570e67a641a456d47ea",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/openzipkin/zipkin-go-opentracing/_thrift/gen-go/scribe",
+			"repository": "https://github.com/openzipkin/zipkin-go-opentracing",
+			"revision": "b4c0d025d27a5ed609fb9570e67a641a456d47ea",
+			"branch": "master",
+			"path": "/_thrift/gen-go/scribe"
+		},
+		{
+			"importpath": "github.com/openzipkin/zipkin-go-opentracing/_thrift/gen-go/zipkincore",
+			"repository": "https://github.com/openzipkin/zipkin-go-opentracing",
+			"revision": "b4c0d025d27a5ed609fb9570e67a641a456d47ea",
+			"branch": "master",
+			"path": "/_thrift/gen-go/zipkincore"
 		},
 		{
 			"importpath": "github.com/pborman/uuid",

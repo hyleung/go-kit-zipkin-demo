@@ -8,6 +8,7 @@ import (
 	log "github.com/go-kit/kit/log"
 	kitot "github.com/go-kit/kit/tracing/opentracing"
 	httptransport "github.com/go-kit/kit/transport/http"
+	"github.com/opentracing/opentracing-go"
 	"github.com/openzipkin/zipkin-go-opentracing"
 	"golang.org/x/net/context"
 	"io"
@@ -51,19 +52,28 @@ func main() {
 	}
 	Info.Println("Starting server on port:", *port)
 	//tracing
-	serviceName := "echo-service"
-	timeout := time.Second
-	Info.Println("Using Scribe collector at", *scribeHost, "sampling at", *samplingRate*100, "%")
-	collector, err := zipkintracer.NewScribeCollector(*scribeHost, timeout, zipkintracer.ScribeBatchSize(1))
+	var tracer opentracing.Tracer
+	{
+		switch {
+		case *scribeHost != "":
+			serviceName := "echo-service"
+			timeout := time.Second
+			Info.Println("Using Scribe collector at", *scribeHost, "sampling at", *samplingRate*100, "%")
+			collector, err := zipkintracer.NewScribeCollector(*scribeHost, timeout, zipkintracer.ScribeBatchSize(1))
 
-	if err != nil {
-		stdlog.Fatal(err)
-	}
-	recorder := zipkintracer.NewRecorder(collector, true, fmt.Sprintf("127.0.0.1:%d", *port), serviceName)
-	sampler := zipkintracer.NewCountingSampler(*samplingRate)
-	tracer, err := zipkintracer.NewTracer(recorder, zipkintracer.WithSampler(sampler), zipkintracer.WithLogger(zipkintracer.LogWrapper(Error)))
-	if err != nil {
-		stdlog.Fatal(err)
+			if err != nil {
+				stdlog.Fatal(err)
+			}
+			recorder := zipkintracer.NewRecorder(collector, true, fmt.Sprintf("127.0.0.1:%d", *port), serviceName)
+			sampler := zipkintracer.NewCountingSampler(*samplingRate)
+			tracer, err = zipkintracer.NewTracer(recorder, zipkintracer.WithSampler(sampler), zipkintracer.WithLogger(zipkintracer.LogWrapper(Error)))
+			if err != nil {
+				stdlog.Fatal(err)
+			}
+		default:
+			Info.Println("Defaulting to no-op tracer...")
+			tracer = opentracing.GlobalTracer()
+		}
 	}
 
 	ctx := context.Background()

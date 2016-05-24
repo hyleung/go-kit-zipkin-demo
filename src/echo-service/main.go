@@ -13,6 +13,7 @@ import (
 	"golang.org/x/net/context"
 	"io"
 	stdlog "log"
+	"net"
 	"net/http"
 	"os"
 	"time"
@@ -64,7 +65,8 @@ func main() {
 			if err != nil {
 				stdlog.Fatal(err)
 			}
-			recorder := zipkintracer.NewRecorder(collector, true, fmt.Sprintf("127.0.0.1:%d", *port), serviceName)
+			ipaddr, _ := getLocalIP()
+			recorder := zipkintracer.NewRecorder(collector, true, fmt.Sprintf("%s:%d", ipaddr, *port), serviceName)
 			sampler := zipkintracer.NewCountingSampler(*samplingRate)
 			tracer, err = zipkintracer.NewTracer(recorder, zipkintracer.WithSampler(sampler), zipkintracer.WithLogger(zipkintracer.LogWrapper(Error)))
 			if err != nil {
@@ -97,4 +99,20 @@ func main() {
 	)
 	http.Handle("/echo", handler)
 	stdlog.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), nil))
+}
+
+func getLocalIP() (ipaddr string, err error) {
+	addrs, err := net.InterfaceAddrs()
+	if err != nil {
+		return "", err
+	}
+	for _, addr := range addrs {
+		if ipnet, ok := addr.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+			if ipnet.IP.To4() != nil {
+				return ipnet.IP.String(), nil
+			}
+		}
+	}
+	return "", fmt.Errorf("Unable to get local IP")
+
 }
